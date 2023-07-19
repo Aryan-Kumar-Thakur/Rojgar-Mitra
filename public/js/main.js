@@ -2,6 +2,8 @@ const city_name = document.getElementById("location")
 const searchBtn = document.getElementById("search-btn")
 const jobSection = document.getElementById("job-section")
 const search = document.getElementById("search")
+let roleInput = document.getElementById("roleInput")
+let locationInput = document.getElementById("locationInput")
 let nextPageBtn = document.getElementById("next");
 let prevPageBtn = document.getElementById("prev");
 
@@ -23,16 +25,24 @@ let totalPageCount = 0;
 let jobsPerPage = 10;
 
 //Function to fetch Jobs from the here country is "India" and page depends on no. of page
-const fetchJobs = async (country, page) => {
+const fetchJobs = async (country, page, roleValue, locationValue) => {
   const API_KEY = 'df9a3b242a4b45e6dea34b718a852c34'; // Replace with your Adzuna API key
-  const API_ID = '715355dc'
+  const API_ID =  '715355dc'
   const startIndex = (page - 1) * jobsPerPage
   try {
-    const API_URL = `https://api.adzuna.com/v1/api/jobs/${country}/search/${page}?app_id=${API_ID}&app_key=${API_KEY}&results_per_page=50&content-type=application/json`;
+    let API_URL = `https://api.adzuna.com/v1/api/jobs/${country}/search/${page}?app_id=${API_ID}&app_key=${API_KEY}&results_per_page=50&content-type=application/json`;
+
+    if (roleValue) {
+      API_URL += `&what=${encodeURIComponent(roleValue)}`;
+    }
+    if (locationValue) {
+      API_URL += `&where=${encodeURIComponent(locationValue)}`;
+    }
     const response = await fetch(API_URL);
     const data = await response.json();
 
     if (data.results && data.results.length > 0) {
+      console.group("successs")
       const alljobs = data.results;
 
       //Sort the job in decreasing order of date of creation
@@ -50,11 +60,14 @@ const fetchJobs = async (country, page) => {
       togglePageButtons();
 
     } else {
+      jobSection.innerHTML = ""
+      nextPageBtn.style.display = "none";
       const noData = document.createElement("h1")
       noData.innerHTML = "No Jobs Found for Your Search"
       noData.className = "no-result-msg"
       jobSection.appendChild(noData);
       console.log("No more job found")
+      return;
     }
   } catch (error) {
     jobSection.innerHTML = ""
@@ -62,8 +75,9 @@ const fetchJobs = async (country, page) => {
     nextPageBtn.style.display = "none";
     const noData = document.createElement("h1")
     noData.innerHTML = "Sorry 😔 Error fetching job Please Try Again Later"
-    noData.className = "no-result-msg2"
+    noData.className = "no-result-msg"
     jobSection.appendChild(noData);
+    console.error('Error loading jobs:', error);
     console.log("Error fetching job :", error)
   }
 
@@ -118,11 +132,9 @@ const createjobcard = (job) => {
 //Function for Controlling Next and Previous button
 
 const addPageButtonEventListeners = () => {
-  // const nextPageBtn = document.getElementById("next");
   nextPageBtn.textContent = "Next";
   nextPageBtn.addEventListener("click", fetchNextPage);
 
-  // const prevPageBtn = document.getElementById("prev");
   prevPageBtn.textContent = "Previous";
   prevPageBtn.addEventListener("click", fetchPreviousPage);
 };
@@ -134,10 +146,10 @@ const fetchNextPage = () => {
 
   if (remainingJobs > 0) {
     currentPage++;
-    fetchJobs('in', currentPage);
+    fetchJobs('in', currentPage,roleValue,locationValue);
     setTimeout(() => {
       togglePageButtons();
-    }, 5000);
+    }, 2000);
   }
 };
 
@@ -145,10 +157,10 @@ const fetchNextPage = () => {
 const fetchPreviousPage = () => {
   if (currentPage > 1) {
     currentPage--;
-    fetchJobs('in', currentPage);
+    fetchJobs('in', currentPage,roleValue,locationValue);
     setTimeout(() => {
       togglePageButtons();
-    }, 5000);
+    }, 2000);
   }
 };
 
@@ -174,8 +186,32 @@ const togglePageButtons = () => {
 };
 
 let currentPage = 1;
+let roleValue;
+let locationValue;
 
-//This load the first page and then transfer control to next and previous button
+if(search){
+  search.addEventListener('click', () => {
+    try {
+      roleValue = roleInput.value.toLowerCase();
+      locationValue = locationInput.value.toLowerCase();
+      if (!roleValue && !locationValue) {
+        alert("Input Either Role or Location to Search Specific Jobs Otherwise Visit All Job Page")
+      }
+      else {
+        currentPage = 1;
+        fetchJobs('in', currentPage, roleValue, locationValue)
+          setTimeout(() => {
+            addPageButtonEventListeners();
+            togglePageButtons(); // Call togglePageButtons after the data is loaded
+            document.getElementById("pagination-buttons").style.display = "block"; // Show the pagination buttons
+          }, 5000)
+        }
+      }catch(error){
+        console.log("Error fetching Jobs :" ,error)
+      }
+  });
+}
+else{
 try {
   fetchJobs('in', currentPage);
 
@@ -187,4 +223,5 @@ try {
 
 } catch (error) {
   console.error('Error loading jobs:', error);
+}
 }
