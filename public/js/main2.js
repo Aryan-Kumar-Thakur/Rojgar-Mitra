@@ -146,7 +146,7 @@ const fetchNextPage = () => {
 
   if (remainingJobs > 0) {
     currentPage++;
-    fetchJobs('in', currentPage);
+    fetchJobs('in', currentPage,roleValue,locationValue);
     setTimeout(() => {
       togglePageButtons();
     }, 2000);
@@ -157,7 +157,7 @@ const fetchNextPage = () => {
 const fetchPreviousPage = () => {
   if (currentPage > 1) {
     currentPage--;
-    fetchJobs('in', currentPage);
+    fetchJobs('in', currentPage,roleValue,locationValue);
     setTimeout(() => {
       togglePageButtons();
     }, 2000);
@@ -186,11 +186,13 @@ const togglePageButtons = () => {
 };
 
 let currentPage = 1;
+let roleValue;
+let locationValue;
 
 search.addEventListener('click', () => {
   try {
-    const roleValue = roleInput.value.toLowerCase();
-    const locationValue = locationInput.value.toLowerCase();
+    roleValue = roleInput.value.toLowerCase();
+    locationValue = locationInput.value.toLowerCase();
     if (!roleValue && !locationValue) {
       alert("Input Either Role or Location to Search Specific Jobs Otherwise Visit All Job Page")
     }

@@ -408,27 +408,34 @@ footer p{
 @media(max-width:767px){
   body{
       min-height: 100vh;
+      width: 100%;
       display: flex;
       flex-direction: column;
   }
 
   .main_header{
-    height: 110vh;
-    margin-bottom: 40vh;
+    width: 100%;
+    height: 105vh;
+    margin-bottom: 20vh;
   }
+
+  .about-main{
+    height: 120vh;
+  }
+
   .main_header_left{
       height: auto;
-      margin: 100px 1.5rem;
+      margin: 100px 0;
   }
   .main_header_right{
       height: auto;
-      margin: 50px 0.5rem;
+      margin-top: 50px;
+      margin-left: -2px;
   }
 
   .flexrow{
     display: flex;
     flex-direction: column;
-    width: 100%;
   }
 
   .featured-card{
@@ -439,16 +446,12 @@ footer p{
     flex-direction: column;
     border-radius: 20px;
     box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
-    margin-top: 50px;
+    margin-bottom: 50px;
   } 
 
   .flexrow {
     flex-direction: column;
     align-items: center;
-  }
-
-  .featured-card {
-    margin-bottom: 50px;
   }
 
   #pagination-buttons{
@@ -460,7 +463,7 @@ footer p{
 
   #prev{
     background-color: orange;
-    margin-left: 38%;
+    margin-left: 35%;
      margin-bottom: 20px;
   }
   #next{
@@ -480,7 +483,23 @@ footer p{
   .input button{
     width: 100px;
   }
+.Profile{
+  margin-right: -20px;
+}
 
+.about-btn{
+  margin-left: 30%;
+}
+
+  .handles{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .handles a{
+    margin-bottom: 8px;
+    margin-left: 20%;
+  }
   footer{
       margin-top: auto;
   }
