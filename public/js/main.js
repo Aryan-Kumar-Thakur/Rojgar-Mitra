@@ -24,7 +24,7 @@ let jobsPerPage = 10;
 
 //Function to fetch Jobs from the here country is "India" and page depends on no. of page
 const fetchJobs = async (country, page) => {
-  const API_KEY = ' df9a3b242a4b45e6dea34b718a852c34'; // Replace with your Adzuna API key
+  const API_KEY = 'df9a3b242a4b45e6dea34b718a852c34'; // Replace with your Adzuna API key
   const API_ID = '715355dc'
   const startIndex = (page - 1) * jobsPerPage
   try {
