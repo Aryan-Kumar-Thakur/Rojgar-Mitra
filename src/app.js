@@ -25,9 +25,6 @@ app.get('/jobs', (req, res) => {
 app.get('/searchjobs', (req, res) => {
     res.render('searchjobs')
 })
-app.get('/about', (req, res) => {
-    res.render('about')
-})
 app.get('*', (req, res) => {
     res.render('404err')
 })
