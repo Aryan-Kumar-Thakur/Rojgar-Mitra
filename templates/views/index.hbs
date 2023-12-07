@@ -6,13 +6,14 @@
 </head>
 
 <body>
-    {{>navbar}}
+    {{>navbar isAuthenticated=isAuthenticated}}
     <div class="full-body">
         <div class="container-fluid main_header index_main_header">
             <div class="row">
                 <div class="col-md-10 col-12 mx-auto">
                     <div class="row">
                         <div class="col-md-6 col-12 main_header_left">
+                            <p class="greeting">Welcome, {{userName}}</p>
                             <p class="main-para">Are You Looking For A Job ? </p>
                             <h2 class="main-text">Welcome to <span style="color: #FFD700;">Rozgar-Mitra</span>, your
                                 one-stop destination for finding the perfect job and advancing
