@@ -49,7 +49,6 @@ app.get('/', (req, res) => {
     const isAuthenticated = token !== undefined;
     const user = req.user;
     const userName = user === null ? 'User 👨‍💼' : `${user.name} 👨‍💼`;
-    // console.log(user)
     res.render('index',{
         isAuthenticated:isAuthenticated,
         userName:userName
